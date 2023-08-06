@@ -1,22 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14' // You can change this to any image that contains the necessary tools for building your web pages
-            args '-p 80:80' // Port mapping for the web server
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('') {
+                        def dockerImage = docker.build("my_web_server:${env.BUILD_NUMBER}", '.')
+                        dockerImage.push()
+                    }
+                }
+            }
         }
     }
 
-    stages {
-        stage('Clone') {
-            steps {
-                git 'https://github.com/nicol144/devops_final_exam_2.git'
-            }
+    post {
+        success {
+            echo "Build successful! Pushed Docker image to the registry."
         }
-
-        stage('Build and Deploy') {
-            steps {
-                sh 'cp -r ./* /usr/share/nginx/html/' // Copy the web pages to the Nginx web server root
-            }
+        failure {
+            echo "Build failed! Check the Jenkins Console Output for details."
         }
     }
 }
