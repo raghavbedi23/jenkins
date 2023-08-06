@@ -6,8 +6,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Checkout the repository from your Git repository URL
-                git 'https://github.com/nicol144/devops_final_exam_2.git'
+                // Checkout the repository from your Git repository URL using the 'main' branch
+                git branch: 'main', url: 'https://github.com/nicol144/devops_final_exam_2.git'
             }
         }
 
