@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t my_web_server:${env.BUILD_NUMBER} .'
+                sh "docker build -t my_web_server:${env.BUILD_NUMBER} ."
             }
         }
 
@@ -17,12 +17,10 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry([credentialsId: 'docker_cred', url: '']) {
-                        sh '''
-                            docker login -u adi144 -p 'Pitaji144$'
-                            docker tag my_web_server:${env.BUILD_NUMBER} adi144/my_web_server:${env.BUILD_NUMBER}
-                            docker push adi144/my_web_server:${env.BUILD_NUMBER}
-                            docker logout
-                        '''
+                        sh "docker login -u adi144 -p 'Pitaji144\$'"
+                        sh "docker tag my_web_server:${env.BUILD_NUMBER} adi144/my_web_server:${env.BUILD_NUMBER}"
+                        sh "docker push adi144/my_web_server:${env.BUILD_NUMBER}"
+                        sh "docker logout"
                     }
                 }
             }
