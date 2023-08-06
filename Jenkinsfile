@@ -16,9 +16,11 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry([credentialsId: 'your-registry-credentials-id', url: 'https://your-docker-registry-url']) {
-                        sh "docker tag my_web_server:${env.BUILD_NUMBER} your-docker-registry-url/my_web_server:${env.BUILD_NUMBER}"
-                        sh "docker push your-docker-registry-url/my_web_server:${env.BUILD_NUMBER}"
+                    withDockerRegistry([credentialsId: 'docker_cred', url: '']) {
+                        sh "docker login -u adi144 -p 'Pitaji144$'"
+                        sh "docker tag my_web_server:${env.BUILD_NUMBER} adi144/my_web_server:${env.BUILD_NUMBER}"
+                        sh "docker push adi144/my_web_server:${env.BUILD_NUMBER}"
+                        sh "docker logout"
                     }
                 }
             }
