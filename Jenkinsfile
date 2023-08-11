@@ -18,7 +18,7 @@ pipeline {
 
                 // Checkout the repository from your Git repository URL using the 'main' branch
 
-                git branch: 'main', url: ''
+                git branch: 'main', url: 'https://github.com/raghavbedi23/jenkins.git'
 
             }
 
